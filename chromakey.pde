@@ -1,4 +1,5 @@
 int greenDistance = 200;
+int componentDiff = 0;
 
 void key (PImage src, PImage result) {
   src.loadPixels ();
@@ -15,7 +16,8 @@ void key (PImage src, PImage result) {
       color c = src.pixels [pixelLocation];
       currentPixel.x = red (c); currentPixel.y = green (c); currentPixel.z = blue (c);
 
-      if (PVector.dist (greenPixel, currentPixel) <= greenDistance) {
+      if (PVector.dist (greenPixel, currentPixel) <= greenDistance &&
+          max (currentPixel.x, currentPixel.z) - currentPixel.y < componentDiff) {
         result.pixels [pixelLocation] = color (0, 0, 0, 0);
         // result.pixels [pixelLocation] = src.pixels [pixelLocation];
       } else {
@@ -38,6 +40,14 @@ void keyPressed () {
       break;
     case '-':
       greenDistance--;
+      key (src, result);
+      break;
+    case 'k':
+      componentDiff++;
+      key (src, result);
+      break;
+    case 'j':
+      componentDiff--;
       key (src, result);
       break;
     case 'n':
@@ -88,8 +98,9 @@ void draw () {
 
   fill (0);
   text ("Current distance is: " + greenDistance, 0, 0);
+  text ("Current component distance: " + componentDiff, 0, 20);
+  text ("Currently viewing image: " + imgIndex, 0, 40);
 
-  text ("Currently viewing image: " + imgIndex, 0, 20);
 
   // greenDistance = ceil (map (sin ((float)millis () / 500.0), -1, 1, 100, 250));
   // key (src, result);
