@@ -36,19 +36,15 @@ void keyPressed () {
   switch (key) {
     case '+':
       greenDistance++;
-      key (src, result);
       break;
     case '-':
       greenDistance--;
-      key (src, result);
       break;
     case 'k':
       componentDiff++;
-      key (src, result);
       break;
     case 'j':
       componentDiff--;
-      key (src, result);
       break;
     case 'n':
       imgIndex++;
@@ -57,10 +53,11 @@ void keyPressed () {
       break;
   }
 
-  key (src, result);
+  keyed = false;
 }
 
 String [] images;
+boolean keyed = false;
 
 void setup () {
   size (800, 600);
@@ -101,7 +98,11 @@ void draw () {
   text ("Current component distance: " + componentDiff, 0, 20);
   text ("Currently viewing image: " + imgIndex, 0, 40);
 
+  if (!keyed) {
+    key (src, result);
+    keyed = true;
+  }
+
 
   // greenDistance = ceil (map (sin ((float)millis () / 500.0), -1, 1, 100, 250));
-  // key (src, result);
 }
